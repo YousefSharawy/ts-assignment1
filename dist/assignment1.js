@@ -15,6 +15,7 @@ class User {
         this.password = password;
         this.phone = phone;
         this.age = age;
+        this.setAge(age);
     }
     setAge(age) {
         if (age > 18 && age < 60) {
@@ -64,7 +65,8 @@ class Storage {
         this.items.push(item);
     }
     removeItem(item) {
-        return this.items.filter((i) => i !== item);
+        this.items = this.items.filter((i) => i !== item);
+        return this.items;
     }
     getAllItems() {
         return this.items;
