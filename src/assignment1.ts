@@ -5,7 +5,7 @@ class User {
   private password!: string;
   public phone!: string;
   public age!: number;
-
+  private notebooks: NoteBook[] = [];
   constructor(
     id: number,
     name: string,
@@ -32,6 +32,9 @@ class User {
       `id :${this.userID}, name: ${this.name}, email:${this.email}, password : *****, phone:${this.phone}, age:${this.age}`,
     );
   }
+  addNotebook(notebook: NoteBook) {
+    this.notebooks.push(notebook);
+  }
 }
 const user = new User(
   1,
@@ -52,11 +55,13 @@ class Note {
   protected noteId?: number;
   public title!: string;
   public content!: string;
+  public author: User;
 
-  constructor(noteId: number, title: string, content: string) {
+  constructor(noteId: number, title: string, content: string, author: User) {
     this.noteId = noteId;
     this.title = title;
     this.content = content;
+    this.author = author;
   }
 
   preview(): string {
@@ -67,11 +72,24 @@ class Note {
 class NoteBook {
   private notes: Note[] = [];
 
-  addNote(title:string,content:string) {
-    this.notes.push(new Note(1,title,content));
+  addNote(title: string, content: string, author: User) {
+    this.notes.push(new Note(1, title, content, author));
   }
   removeNote() {
     console.log("note removed");
   }
+}
 
+class Storage<T> {
+  private items: T[] = [];
+
+  addItem(item: T): void {
+    this.items.push(item);
+  }
+  removeItem(item: T): T[] {
+    return this.items.filter((i) => i !== item);
+  }
+  getAllItems(): T[] {
+    return this.items;
+  }
 }
